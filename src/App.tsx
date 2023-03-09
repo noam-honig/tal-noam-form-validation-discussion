@@ -1,9 +1,9 @@
-import { Dispatch, FormEvent, SetStateAction, useState } from "react"
-import "./App.css"
-import { remult, ErrorInfo, Repository } from "remult"
-import { Person } from "./model/Person"
+import { Dispatch, FormEvent, SetStateAction, useState } from "react";
+import "./App.css";
+import { remult, ErrorInfo, Repository } from "remult";
+import { Person } from "./model/Person";
 
-const repo = remult.repo(Person)
+const repo = remult.repo(Person);
 
 function useValidators<T>(
   repo: Repository<T>,
@@ -15,41 +15,39 @@ function useValidators<T>(
     {
       get(target, key: string, receiver) {
         return async () => {
-          const ref = repo.getEntityRef({ [key]: (state as any)[key] } as any)
-          const field = ref.fields.find(key)
-          const validationIsOk = await field.validate()
+          const ref = repo.getEntityRef({ [key]: (state as any)[key] } as any);
+          const field = ref.fields.find(key);
+          const validationIsOk = await field.validate();
           setError((error) => ({
             modelState: {
               ...error?.modelState,
               [key]: validationIsOk ? undefined : field.error,
             },
-          }))
-        }
+          }));
+        };
       },
     }
-  ) as any
+  ) as any;
 }
 
 export type Validators<entityType> = {
-  [Properties in keyof entityType]: () => void
-}
-
+  [Properties in keyof entityType]: () => void;
+};
 
 function App() {
-  
-  const [firstName, setFirstName] = useState("")
-  const [lastName, setLastName] = useState("")
-  const [error, setError] = useState<ErrorInfo<Person>>()
-  const v = useValidators(repo, { firstName, lastName }, setError)
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [error, setError] = useState<ErrorInfo<Person>>();
+  const v = useValidators(repo, { firstName, lastName }, setError);
   const addPerson = async (e: FormEvent) => {
     try {
-      e.preventDefault()
-      setError(undefined)
-      await repo.insert({ firstName, lastName })
+      e.preventDefault();
+      setError(undefined);
+      await repo.insert({ firstName, lastName });
     } catch (error: any) {
-      setError(error)
+      setError(error);
     }
-  }
+  };
 
   return (
     <div>
@@ -73,7 +71,7 @@ function App() {
         <button>Insert</button>
       </form>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
