@@ -23,7 +23,7 @@ function useValidators<T>(repo: Repository<T>): Validators<T> {
 }
 
 export type Validators<entityType> = {
-  [Properties in keyof entityType]: () => void;
+  [Properties in keyof entityType]: (value: string) => string | undefined;
 };
 
 function App() {

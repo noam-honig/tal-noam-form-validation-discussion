@@ -23,7 +23,7 @@ function useValidators<T>(repo: Repository<T>): Validators<T> {
 }
 
 export type Validators<entityType> = {
-  [Properties in keyof entityType]: (value: string) => void;
+  [Properties in keyof entityType]: (value: string) => string | undefined;
 };
 
 function App() {
@@ -32,14 +32,21 @@ function App() {
       <Formik
         initialValues={{ firstName: "", lastName: "" }}
         onSubmit={async (values) => {
+          console.log(values);
           await repo.insert(values);
         }}
         validate={async (values) => {
           const v = useValidators(repo);
-          const errors = {
-            firstName: await v.firstName(values.firstName),
-            lastName: await v.lastName(values.lastName),
-          };
+          const errors: any = {};
+          for (const key in values) {
+            const value = values[key as keyof typeof values];
+            const error = await v[key as keyof typeof v](value);
+            if (error) {
+              errors[key as string] = error;
+            }
+          }
+
+          console.log(errors);
           return errors;
         }}
       >
