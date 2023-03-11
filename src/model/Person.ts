@@ -21,3 +21,4 @@ export class Person {
 }
 
 remult.dataProvider = new JsonDataProvider(localStorage);
+// bug: id already exists when using localStorage, and inserting the same firstName
