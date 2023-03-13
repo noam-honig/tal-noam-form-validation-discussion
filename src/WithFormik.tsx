@@ -10,10 +10,16 @@ function App() {
   return (
     <div>
       <Formik
-        initialValues={{ firstName: "", lastName: "" }}
+        initialValues={{
+          firstName: "",
+          lastName: "",
+          isFalse: true,
+          date: "2023-05-31",
+        }}
         onSubmit={async (values) => {
           console.log(values);
-          await repo.insert(values);
+          //he don't like date as string
+          await repo.insert(values as any);
         }}
         validate={async (values) => {
           const v = useValidators(repo);
@@ -29,15 +35,30 @@ function App() {
         }}
       >
         <Form>
-          <label htmlFor="firstName">First Name</label>
-          <Field name="firstName" type="text" />
-          <ErrorMessage name="firstName" component="div" />
+          <div>
+            <label htmlFor="firstName">First Name</label>
+            <Field name="firstName" type="text" />
+            <ErrorMessage name="firstName" component="span" />
+          </div>
+          <div>
+            <label htmlFor="lastName">Last Name</label>
+            <Field name="lastName" type="text" />
+            <ErrorMessage name="lastName" component="span" />
+          </div>
+          <div>
+            <label htmlFor="isFalse">isFalse</label>
+            <Field name="isFalse" type="checkbox" />
+            <ErrorMessage name="isFalse" component="span" />
+          </div>
 
-          <label htmlFor="lastName">Last Name</label>
-          <Field name="lastName" type="text" />
-          <ErrorMessage name="lastName" component="div" />
-
-          <button type="submit">Submit</button>
+          <div>
+            <label htmlFor="date">Date</label>
+            <Field name="date" type="date" />
+            <ErrorMessage name="date" component="span" />
+          </div>
+          <div>
+            <button type="submit">Submit</button>
+          </div>
         </Form>
       </Formik>
     </div>

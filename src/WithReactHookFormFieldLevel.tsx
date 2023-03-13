@@ -13,6 +13,8 @@ const repo = remult.repo(Person);
 type FormValues = {
   firstName: string;
   lastName: string;
+  isFalse: boolean;
+  date: string;
 };
 
 function App() {
@@ -20,22 +22,49 @@ function App() {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<FormValues>({ mode: "onBlur" });
-  const onSubmit = async (data: any) => {
-    await repo.insert(data);
+  } = useForm<FormValues>({
+    mode: "all",
+    defaultValues: {
+      firstName: "",
+      lastName: "",
+      isFalse: true,
+      date: "2023-05-31",
+    },
+  });
+  const onSubmit = async (data: FormValues) => {
+    await repo.insert(data as any);
   };
 
   const v = useValidators(repo);
   return (
     <div>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <label htmlFor="firstName">First Name</label>
-        <input {...register("firstName", { validate: v.firstName })} />
-        <div>{errors.firstName?.message}</div>
+        <div>
+          <label htmlFor="firstName">First Name</label>
+          <input {...register("firstName", { validate: v.firstName })} />
+          <span>{errors.firstName?.message}</span>
+        </div>
 
-        <label htmlFor="lastName">Last Name</label>
-        <input {...register("lastName", { validate: v.lastName })} />
-        <div>{errors.lastName?.message}</div>
+        <div>
+          <label htmlFor="lastName">Last Name</label>
+          <input {...register("lastName", { validate: v.lastName })} />
+          <span>{errors.lastName?.message}</span>
+        </div>
+
+        <div>
+          <label htmlFor="isFalse">isFalse</label>
+          <input
+            {...register("isFalse", { validate: v.isFalse })}
+            type="checkbox"
+          />
+          <span>{errors.isFalse?.message}</span>
+        </div>
+
+        <div>
+          <label htmlFor="date">date</label>
+          <input {...register("date", { validate: v.date })} type="date" />
+          <span>{errors.date?.message}</span>
+        </div>
 
         <button type="submit">Submit</button>
       </form>

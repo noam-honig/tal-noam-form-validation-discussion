@@ -8,12 +8,20 @@ const repo = remult.repo(Person);
 
 function App() {
   const v = useValidators(repo);
-  const onSubmit = async (data: any) => {
-    await repo.insert(data);
-  };
+
   return (
     <div>
-      <Form onSubmit={onSubmit}>
+      <Form
+        onSubmit={async (values) => {
+          await repo.insert(values);
+        }}
+        initialValues={{
+          firstName: "",
+          lastName: "",
+          isFalse: true,
+          date: "2023-05-31",
+        }}
+      >
         {({ handleSubmit, submitting, values, errors }) => (
           <form onSubmit={handleSubmit}>
             <Field name="firstName" validate={v.firstName}>
@@ -30,6 +38,26 @@ function App() {
                 <div>
                   <label>Last Name</label>
                   <input {...input} type="text" placeholder="Last Name" />
+                  {meta.error && meta.touched && <span>{meta.error}</span>}
+                </div>
+              )}
+            </Field>
+
+            <Field name="isFalse" type="checkbox" validate={v.isFalse}>
+              {({ input, meta }) => (
+                <div>
+                  <label>isFalse</label>
+                  <input {...input} />
+                  {meta.error && meta.touched && <span>{meta.error}</span>}
+                </div>
+              )}
+            </Field>
+
+            <Field name="date" validate={v.date}>
+              {({ input, meta }) => (
+                <div>
+                  <label>Date</label>
+                  <input {...input} type="date" />
                   {meta.error && meta.touched && <span>{meta.error}</span>}
                 </div>
               )}

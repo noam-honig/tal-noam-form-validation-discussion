@@ -14,15 +14,22 @@ const v = useValidators(repo);
 type FormValues = {
   firstName: string;
   lastName: string;
+  isFalse: boolean;
+  date: string;
 };
-
 function App() {
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<FormValues>({
-    mode: "onBlur",
+    mode: "all",
+    defaultValues: {
+      firstName: "",
+      lastName: "",
+      isFalse: true,
+      date: "2023-05-31",
+    },
     resolver: async (data, context) => {
       console.log(data);
       const errors: any = {};
@@ -44,13 +51,29 @@ function App() {
   return (
     <div>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <label htmlFor="firstName">First Name</label>
-        <input {...register("firstName")} />
-        <div>{errors.firstName?.message}</div>
+        <div>
+          <label htmlFor="firstName">First Name</label>
+          <input {...register("firstName")} />
+          <span>{errors.firstName?.message}</span>
+        </div>
 
-        <label htmlFor="lastName">Last Name</label>
-        <input {...register("lastName")} />
-        <div>{errors.lastName?.message}</div>
+        <div>
+          <label htmlFor="lastName">Last Name</label>
+          <input {...register("lastName")} />
+          <span>{errors.lastName?.message}</span>
+        </div>
+
+        <div>
+          <label htmlFor="isFalse">isFalse</label>
+          <input {...register("isFalse")} type="checkbox" />
+          <span>{errors.isFalse?.message}</span>
+        </div>
+
+        <div>
+          <label htmlFor="date">date</label>
+          <input {...register("date")} type="date" />
+          <span>{errors.date?.message}</span>
+        </div>
 
         <button type="submit">Submit</button>
       </form>
