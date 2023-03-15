@@ -1,12 +1,11 @@
-import "./App.css";
 import { remult } from "remult";
-import { Person } from "./model/Person";
-import useValidators from "./useValidators";
+import { Person } from "../../model/Person";
+import useValidators from "../../model/useValidators";
 import { Field, Form } from "react-final-form";
 
 const repo = remult.repo(Person);
 
-function App() {
+function WithFinalFormFieldLevel() {
   const v = useValidators(repo);
 
   return (
@@ -73,4 +72,4 @@ function App() {
   );
 }
 
-export default App;
+export default WithFinalFormFieldLevel;

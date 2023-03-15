@@ -1,9 +1,7 @@
-import { Dispatch, FormEvent, SetStateAction, useState } from "react";
-import "./App.css";
 import { remult, ErrorInfo, Repository } from "remult";
-import { Person } from "./model/Person";
+import { Person } from "../../model/Person";
 import { useForm } from "react-hook-form";
-import useValidators from "./useValidators";
+import useValidators from "../../model/useValidators";
 
 const repo = remult.repo(Person);
 
@@ -17,7 +15,7 @@ type FormValues = {
   date: string;
 };
 
-function App() {
+function WithReactHookFormFieldLevel() {
   const {
     register,
     handleSubmit,
@@ -72,4 +70,4 @@ function App() {
   );
 }
 
-export default App;
+export default WithReactHookFormFieldLevel;

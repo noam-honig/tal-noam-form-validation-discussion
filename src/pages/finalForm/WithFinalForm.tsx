@@ -1,7 +1,6 @@
-import "./App.css";
 import { remult } from "remult";
-import { Person } from "./model/Person";
-import useValidators from "./useValidators";
+import { Person } from "../../model/Person";
+import useValidators from "../../model/useValidators";
 import { Field, Form } from "react-final-form";
 
 const repo = remult.repo(Person);
@@ -9,7 +8,7 @@ const repo = remult.repo(Person);
 // BUG IN FINAL FORM: sent to validate just if value is not empty
 // therefore missed the "shouldn't be empty" validation
 
-function App() {
+function WithFinalForm() {
   const v = useValidators(repo);
 
   return (
@@ -89,4 +88,4 @@ function App() {
   );
 }
 
-export default App;
+export default WithFinalForm;

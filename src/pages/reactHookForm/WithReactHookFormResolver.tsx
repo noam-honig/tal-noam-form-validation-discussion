@@ -1,10 +1,8 @@
-import { Dispatch, FormEvent, SetStateAction, useState } from "react";
-import "./App.css";
 import { remult, ErrorInfo, Repository } from "remult";
-import { Person } from "./model/Person";
+import { Person } from "../../model/Person";
 import { useForm } from "react-hook-form";
 
-import useValidators from "./useValidators";
+import useValidators from "../../model/useValidators";
 const repo = remult.repo(Person);
 const v = useValidators(repo);
 
@@ -17,7 +15,7 @@ type FormValues = {
   isFalse: boolean;
   date: string;
 };
-function App() {
+function WithReactHookFormResolver() {
   const {
     register,
     handleSubmit,
@@ -81,4 +79,4 @@ function App() {
   );
 }
 
-export default App;
+export default WithReactHookFormResolver;

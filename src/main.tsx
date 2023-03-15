@@ -1,10 +1,10 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import WithHF from "./WithReactHookFormResolver";
 import "./index.css";
+import App from "./App";
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
-    <WithHF />
+    <App />
   </React.StrictMode>
 );

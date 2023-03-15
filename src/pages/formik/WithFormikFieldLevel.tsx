@@ -1,12 +1,12 @@
-import { Dispatch, FormEvent, SetStateAction, useState } from "react";
-import "./App.css";
 import { remult, ErrorInfo, Repository } from "remult";
-import { Person } from "./model/Person";
+import { Person } from "../../model/Person";
 import { ErrorMessage, Field, Form, Formik } from "formik";
-import useValidators from "./useValidators";
+import useValidators from "../../model/useValidators";
 const repo = remult.repo(Person);
 
-function App() {
+function WithFormikFieldLevel() {
+  const v = useValidators(repo);
+
   return (
     <div>
       <Formik
@@ -17,43 +17,30 @@ function App() {
           date: "2023-05-31",
         }}
         onSubmit={async (values) => {
-          console.log(values);
-          //he don't like date as string
+          //date as string
           await repo.insert(values as any);
-        }}
-        validate={async (values) => {
-          const v = useValidators(repo);
-          const errors: any = {};
-          for (const key in values) {
-            const value = values[key as keyof typeof values];
-            const error = await v[key as keyof typeof v](value);
-            if (error) {
-              errors[key as string] = error;
-            }
-          }
-          return errors;
         }}
       >
         <Form>
           <div>
             <label htmlFor="firstName">First Name</label>
-            <Field name="firstName" type="text" />
+            <Field name="firstName" type="text" validate={v.firstName} />
             <ErrorMessage name="firstName" component="span" />
           </div>
           <div>
             <label htmlFor="lastName">Last Name</label>
-            <Field name="lastName" type="text" />
+            <Field name="lastName" type="text" validate={v.lastName} />
             <ErrorMessage name="lastName" component="span" />
           </div>
           <div>
             <label htmlFor="isFalse">isFalse</label>
-            <Field name="isFalse" type="checkbox" />
+            <Field name="isFalse" type="checkbox" validate={v.isFalse} />
             <ErrorMessage name="isFalse" component="span" />
           </div>
 
           <div>
             <label htmlFor="date">Date</label>
-            <Field name="date" type="date" />
+            <Field name="date" type="date" validate={v.date} />
             <ErrorMessage name="date" component="span" />
           </div>
           <div>
@@ -65,4 +52,4 @@ function App() {
   );
 }
 
-export default App;
+export default WithFormikFieldLevel;
