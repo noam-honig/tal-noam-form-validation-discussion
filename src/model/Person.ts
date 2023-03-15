@@ -6,13 +6,14 @@ import {
   SqlDatabase,
   Validators,
   JsonDataProvider,
+  FieldRef,
 } from "remult";
 
 @Entity("person")
 export class Person {
-  @Fields.string({
-    validate: (_, fieldRef) => {
-      if (fieldRef.value.length < 3) fieldRef.error = "too short";
+  @Fields.string<Person>({
+    validate: (person) => {
+      if (person.firstName.length < 3) throw Error("too short");
     },
   })
   firstName = "";
@@ -24,16 +25,20 @@ export class Person {
       if (fieldRef.value) fieldRef.error = "must be false";
     },
   })
-  isFalse = false;
+  isFalse = true;
 
-  @Fields.date({
+  @Fields.dateOnly({
     validate(entity, fieldRef) {
-      if (new Date(fieldRef.value) > new Date())
-        fieldRef.error = "must be in the past";
+      if (fieldRef.value > new Date()) fieldRef.error = "must be in the past";
     },
   })
-  date = new Date();
+  date = new Date(2023, 6, 15);
 }
 
 remult.dataProvider = new JsonDataProvider(localStorage);
-// bug: id already exists when using localStorage, and inserting the same firstName
+
+export function Min(length: number) {
+  return (_: any, fieldRef: FieldRef<any, string>) => {
+    if (fieldRef.value.length < 3) throw Error("too short");
+  };
+}

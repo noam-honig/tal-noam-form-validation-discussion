@@ -9,8 +9,11 @@ import WithFormik from "./pages/formik/WithFormik";
 import WithFormikFieldLevel from "./pages/formik/WithFormikFieldLevel";
 import WithFinalForm from "./pages/finalForm/WithFinalForm";
 import WithFinalFormFieldLevel from "./pages/finalForm/WithFinalFormFieldLevel";
+import WithFormikNoam from "./pages/formik/WithFormikNoam";
+import WithFinalFormNoam from "./pages/finalForm/WithFinalFormNoam";
+import WithReactHookFormNoam from "./pages/reactHookForm/WithReactHookFormNoam";
 
-const router = createBrowserRouter([
+export const router = createBrowserRouter([
   {
     path: "/",
     element: <RootLayout />,
@@ -21,6 +24,7 @@ const router = createBrowserRouter([
         children: [
           { index: true, element: <WithReactHookFormResolver /> },
           { path: "field", element: <WithReactHookFormFieldLevel /> },
+          { path: "noam", element: <WithReactHookFormNoam /> },
         ],
       },
       {
@@ -28,6 +32,7 @@ const router = createBrowserRouter([
         children: [
           { index: true, element: <WithFormik /> },
           { path: "field", element: <WithFormikFieldLevel /> },
+          { path: "noam", element: <WithFormikNoam /> },
         ],
       },
       {
@@ -35,6 +40,7 @@ const router = createBrowserRouter([
         children: [
           { index: true, element: <WithFinalForm /> },
           { path: "field", element: <WithFinalFormFieldLevel /> },
+          { path: "noam", element: <WithFinalFormNoam /> },
         ],
       },
     ],

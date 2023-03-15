@@ -1,6 +1,9 @@
-import { remult } from "remult";
+import { remult, Repository } from "remult";
 import { Person } from "../../model/Person";
-import useValidators from "../../model/useValidators";
+import useValidators, {
+  fromInput,
+  validateInput,
+} from "../../model/useValidators";
 import { Field, Form } from "react-final-form";
 
 const repo = remult.repo(Person);
@@ -21,21 +24,9 @@ function WithFinalForm() {
           date: "2023-05-31",
         }}
         onSubmit={async (values) => {
-          await repo.insert(values);
+          await repo.insert(fromInput(repo, values));
         }}
-        validate={async (values) => {
-          console.log(values);
-          const v = useValidators(repo);
-          const errors: any = {};
-          for (const key in values) {
-            const value = values[key as keyof typeof values];
-            const error = await v[key as keyof typeof v](value);
-            if (error) {
-              errors[key as string] = error;
-            }
-          }
-          return errors;
-        }}
+        validate={validateInput(repo)}
       >
         {({ handleSubmit, submitting, values, errors }) => (
           <form onSubmit={handleSubmit}>
